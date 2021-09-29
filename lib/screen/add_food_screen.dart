@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:navigation_example/model/food.dart';
 
 class AddFoodScreen extends StatefulWidget {
-  const AddFoodScreen({Key? key, required this.addFood}) : super(key: key);
+  const AddFoodScreen(
+      {Key? key,
+      this.addFood,
+      this.listFood,
+      required this.isEdit,
+      this.food,
+      this.index})
+      : super(key: key);
 
-  final Function addFood;
+  final Function? addFood;
+  final List<Food>? listFood;
+  final bool isEdit;
+  final Food? food;
+  final int? index;
 
   @override
   _AddFoodScreenState createState() => _AddFoodScreenState();
@@ -15,6 +27,27 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   final _foodType = TextEditingController();
   final _foodPrice = TextEditingController();
   final _foodDescription = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isEdit) {
+      _foodName.text = widget.food?.foodName ?? "";
+      _foodType.text = widget.food?.foodType ?? "";
+      _foodPrice.text = widget.food?.price ?? "";
+      _foodDescription.text = widget.food?.description ?? "";
+    }
+  }
+
+  _actionEditAdd() {
+    if (widget.isEdit) {
+      widget.listFood![widget.index!] = Food(_foodName.text, _foodType.text,
+          _foodPrice.text, _foodDescription.text);
+    } else {
+      widget.addFood!(_foodName.text, _foodType.text, _foodPrice.text,
+          _foodDescription.text);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +134,11 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          widget.addFood(_foodName.text, _foodType.text,
-                              _foodPrice.text, _foodDescription.text);
+                          _actionEditAdd();
                           Navigator.pop(context);
                         }
                       },
-                      child: Text('Add Food')),
+                      child: Text('Food Form')),
                 ],
               ),
             )),

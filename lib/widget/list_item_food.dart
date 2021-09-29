@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigation_example/model/food.dart';
-import 'package:navigation_example/screen/food_detail_screen.dart';
+import 'package:navigation_example/screen/add_food_screen.dart';
 
 class ListItemFood extends StatefulWidget {
   final List<Food> listFood;
@@ -28,8 +28,11 @@ class _ListItemFoodState extends State<ListItemFood> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) =>
-                    FoodDetailScreen(food: widget.listFood[index]),
+                builder: (context) => AddFoodScreen(
+                    isEdit: true,
+                    food: widget.listFood[index],
+                    index: index,
+                    listFood: widget.listFood),
               ),
             );
           },

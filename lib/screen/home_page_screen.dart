@@ -36,6 +36,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
             MaterialPageRoute(
               builder: (context) => AddFoodScreen(
                 addFood: _addFood,
+                isEdit: false,
               ),
             ),
           );
